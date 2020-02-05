@@ -1,0 +1,172 @@
+
+Lab1.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000011a  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .comment      00000030  00000000  00000000  0000016e  2**0
+                  CONTENTS, READONLY
+  2 .debug_aranges 00000080  00000000  00000000  0000019e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_info   0000044c  00000000  00000000  0000021e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_abbrev 000001ff  00000000  00000000  0000066a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   00000245  00000000  00000000  00000869  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_frame  00000170  00000000  00000000  00000ab0  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_str    000001e1  00000000  00000000  00000c20  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_loc    000005b2  00000000  00000000  00000e01  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_ranges 00000088  00000000  00000000  000013b3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2e 00 	jmp	0x5c	; 0x5c <__ctors_end>
+   4:	0c 94 43 00 	jmp	0x86	; 0x86 <__bad_interrupt>
+   8:	0c 94 43 00 	jmp	0x86	; 0x86 <__bad_interrupt>
+   c:	0c 94 43 00 	jmp	0x86	; 0x86 <__bad_interrupt>
+  10:	0c 94 43 00 	jmp	0x86	; 0x86 <__bad_interrupt>
+  14:	0c 94 43 00 	jmp	0x86	; 0x86 <__bad_interrupt>
+  18:	0c 94 43 00 	jmp	0x86	; 0x86 <__bad_interrupt>
+  1c:	0c 94 43 00 	jmp	0x86	; 0x86 <__bad_interrupt>
+  20:	0c 94 43 00 	jmp	0x86	; 0x86 <__bad_interrupt>
+  24:	0c 94 43 00 	jmp	0x86	; 0x86 <__bad_interrupt>
+  28:	0c 94 43 00 	jmp	0x86	; 0x86 <__bad_interrupt>
+  2c:	0c 94 43 00 	jmp	0x86	; 0x86 <__bad_interrupt>
+  30:	0c 94 43 00 	jmp	0x86	; 0x86 <__bad_interrupt>
+  34:	0c 94 43 00 	jmp	0x86	; 0x86 <__bad_interrupt>
+  38:	0c 94 43 00 	jmp	0x86	; 0x86 <__bad_interrupt>
+  3c:	0c 94 43 00 	jmp	0x86	; 0x86 <__bad_interrupt>
+  40:	0c 94 43 00 	jmp	0x86	; 0x86 <__bad_interrupt>
+  44:	0c 94 43 00 	jmp	0x86	; 0x86 <__bad_interrupt>
+  48:	0c 94 43 00 	jmp	0x86	; 0x86 <__bad_interrupt>
+  4c:	0c 94 43 00 	jmp	0x86	; 0x86 <__bad_interrupt>
+  50:	0c 94 43 00 	jmp	0x86	; 0x86 <__bad_interrupt>
+  54:	0c 94 43 00 	jmp	0x86	; 0x86 <__bad_interrupt>
+  58:	0c 94 43 00 	jmp	0x86	; 0x86 <__bad_interrupt>
+
+0000005c <__ctors_end>:
+  5c:	11 24       	eor	r1, r1
+  5e:	1f be       	out	0x3f, r1	; 63
+  60:	cf ef       	ldi	r28, 0xFF	; 255
+  62:	d4 e0       	ldi	r29, 0x04	; 4
+  64:	de bf       	out	0x3e, r29	; 62
+  66:	cd bf       	out	0x3d, r28	; 61
+
+00000068 <__do_copy_data>:
+  68:	11 e0       	ldi	r17, 0x01	; 1
+  6a:	a0 e0       	ldi	r26, 0x00	; 0
+  6c:	b1 e0       	ldi	r27, 0x01	; 1
+  6e:	ea e1       	ldi	r30, 0x1A	; 26
+  70:	f1 e0       	ldi	r31, 0x01	; 1
+  72:	02 c0       	rjmp	.+4      	; 0x78 <__do_copy_data+0x10>
+  74:	05 90       	lpm	r0, Z+
+  76:	0d 92       	st	X+, r0
+  78:	a0 30       	cpi	r26, 0x00	; 0
+  7a:	b1 07       	cpc	r27, r17
+  7c:	d9 f7       	brne	.-10     	; 0x74 <__do_copy_data+0xc>
+  7e:	0e 94 82 00 	call	0x104	; 0x104 <main>
+  82:	0c 94 8b 00 	jmp	0x116	; 0x116 <_exit>
+
+00000086 <__bad_interrupt>:
+  86:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000008a <LCD_init>:
+				LCDDR0 = (mask & towrite) | LCDDR0;
+				towrite = (towrite >> 4);
+				LCDDR5 = (mask & towrite) | LCDDR5;
+				towrite = (towrite >> 4);
+				LCDDR10 = (mask & towrite) | LCDDR10;
+				towrite = (towrite >> 4);
+  8a:	87 eb       	ldi	r24, 0xB7	; 183
+  8c:	80 93 e5 00 	sts	0x00E5, r24
+				LCDDR15 = (mask & towrite) | LCDDR15;
+  90:	87 e0       	ldi	r24, 0x07	; 7
+  92:	80 93 e6 00 	sts	0x00E6, r24
+  96:	8f e0       	ldi	r24, 0x0F	; 15
+  98:	80 93 e7 00 	sts	0x00E7, r24
+  9c:	80 ec       	ldi	r24, 0xC0	; 192
+			}
+			if (pos == 1) {
+  9e:	80 93 e4 00 	sts	0x00E4, r24
+  a2:	08 95       	ret
+
+000000a4 <blink>:
+				LCDDR0 = (mask & towrite) << 4;
+  a4:	84 e0       	ldi	r24, 0x04	; 4
+  a6:	80 93 81 00 	sts	0x0081, r24
+  aa:	10 92 85 00 	sts	0x0085, r1
+				towrite = (towrite >> 4);
+  ae:	10 92 84 00 	sts	0x0084, r1
+  b2:	80 e0       	ldi	r24, 0x00	; 0
+  b4:	90 e0       	ldi	r25, 0x00	; 0
+  b6:	20 e0       	ldi	r18, 0x00	; 0
+  b8:	30 e0       	ldi	r19, 0x00	; 0
+  ba:	e4 e8       	ldi	r30, 0x84	; 132
+  bc:	f0 e0       	ldi	r31, 0x00	; 0
+  be:	ad ee       	ldi	r26, 0xED	; 237
+				LCDDR5 = (mask & towrite) << 4;
+  c0:	b0 e0       	ldi	r27, 0x00	; 0
+  c2:	d1 e0       	ldi	r29, 0x01	; 1
+  c4:	c0 e0       	ldi	r28, 0x00	; 0
+  c6:	12 e0       	ldi	r17, 0x02	; 2
+				towrite = (towrite >> 4);
+				LCDDR10 = (mask & towrite) << 4;
+  c8:	70 e0       	ldi	r23, 0x00	; 0
+  ca:	60 e0       	ldi	r22, 0x00	; 0
+  cc:	02 c0       	rjmp	.+4      	; 0xd2 <blink+0x2e>
+  ce:	87 2f       	mov	r24, r23
+  d0:	96 2f       	mov	r25, r22
+				towrite = (towrite >> 4);
+  d2:	40 81       	ld	r20, Z
+  d4:	51 81       	ldd	r21, Z+1	; 0x01
+  d6:	42 17       	cp	r20, r18
+  d8:	53 07       	cpc	r21, r19
+  da:	70 f0       	brcs	.+28     	; 0xf8 <blink+0x54>
+				LCDDR15 = (mask & towrite) << 4;
+  dc:	00 97       	sbiw	r24, 0x00	; 0
+  de:	61 f4       	brne	.+24     	; 0xf8 <blink+0x54>
+  e0:	2e 5e       	subi	r18, 0xEE	; 238
+  e2:	35 48       	sbci	r19, 0x85	; 133
+  e4:	8c 91       	ld	r24, X
+  e6:	81 11       	cpse	r24, r1
+			}
+			if (pos == 2) {
+  e8:	04 c0       	rjmp	.+8      	; 0xf2 <blink+0x4e>
+  ea:	1c 93       	st	X, r17
+  ec:	8d 2f       	mov	r24, r29
+				LCDDR1 = (mask & towrite) | LCDDR1;
+  ee:	9c 2f       	mov	r25, r28
+  f0:	03 c0       	rjmp	.+6      	; 0xf8 <blink+0x54>
+  f2:	1c 92       	st	X, r1
+  f4:	8d 2f       	mov	r24, r29
+  f6:	9c 2f       	mov	r25, r28
+  f8:	40 81       	ld	r20, Z
+  fa:	51 81       	ldd	r21, Z+1	; 0x01
+				towrite = (towrite >> 4);
+  fc:	42 17       	cp	r20, r18
+  fe:	53 07       	cpc	r21, r19
+ 100:	30 f3       	brcs	.-52     	; 0xce <blink+0x2a>
+ 102:	e7 cf       	rjmp	.-50     	; 0xd2 <blink+0x2e>
+
+00000104 <main>:
+ 104:	e1 e6       	ldi	r30, 0x61	; 97
+ 106:	f0 e0       	ldi	r31, 0x00	; 0
+ 108:	80 e8       	ldi	r24, 0x80	; 128
+ 10a:	80 83       	st	Z, r24
+ 10c:	10 82       	st	Z, r1
+				LCDDR6 = (mask & towrite) | LCDDR6;
+ 10e:	0e 94 45 00 	call	0x8a	; 0x8a <LCD_init>
+ 112:	0e 94 52 00 	call	0xa4	; 0xa4 <blink>
+
+00000116 <_exit>:
+ 116:	f8 94       	cli
+
+00000118 <__stop_program>:
+ 118:	ff cf       	rjmp	.-2      	; 0x118 <__stop_program>
