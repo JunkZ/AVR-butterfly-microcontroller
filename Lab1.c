@@ -22,17 +22,6 @@ void LCD_init(void) {
 	LCDCRA = (1<<LCDEN) | (1<<LCDAB);
 	
 
-	/*defining the chars 0-9 in segments on LED*/
-	/*SCC_0 = 0x1551;
-	SCC_1 = 0x2080;
-	SCC_2 = 0x1E11;
-	SCC_3 = 0x1B11;
-	SCC_4 = 0x0B50;
-	SCC_5 = 0x1B41;
-	SCC_6 = 0x1F41;
-	SCC_7 = 0x0111;
-	SCC_8 = 0x1F51;
-	SCC_9 = 0x0B51;*/
 }
 void writeLong(long i) {
 	int x = 5;
@@ -67,77 +56,69 @@ void writechar(char ch, int pos) {
 		0x1F51,
 		0x0B51
 	};
-	
 	if (pos >= 0 && pos <= 5) {
-		if (ch >= 0 && ch <= 9) {
+		if (ch < 0 || ch > 9){
+			ch = ch - '0';
+			}
+			if (ch>= 0 && ch <9) {
 			int mask = 0xF;
 			int mask2 = 0xF0;
 			int towrite = numbers[ch];
 			
 			if (pos == 0) {
-				LCDDR0 = (mask & towrite) | LCDDR0;
+				LCDDR0 = (mask & towrite) | (LCDDR0) & mask2;
 				towrite = (towrite >> 4);
-				LCDDR5 = (mask & towrite) | LCDDR5;
+				LCDDR5 = (mask & towrite) | (LCDDR5) & mask2;
 				towrite = (towrite >> 4);
-				LCDDR10 = (mask & towrite) | LCDDR10;
+				LCDDR10 = (mask & towrite) | (LCDDR10) & mask2;
 				towrite = (towrite >> 4);
-				LCDDR15 = (mask & towrite) | LCDDR15;
+				LCDDR15 = (mask & towrite) | (LCDDR15) & mask2;
 			}
 			if (pos == 1) {
-				LCDDR0 = (mask & towrite) << 4;
+				LCDDR0 = (mask & towrite) << 4 | LCDDR0 & mask;
 				towrite = (towrite >> 4);
-				LCDDR5 = (mask & towrite) << 4;
+				LCDDR5 = (mask & towrite) << 4 | LCDDR5 & mask;
 				towrite = (towrite >> 4);
-				LCDDR10 = (mask & towrite) << 4;
+				LCDDR10 = (mask & towrite) << 4 | LCDDR10 & mask;
 				towrite = (towrite >> 4);
-				LCDDR15 = (mask & towrite) << 4;
+				LCDDR15 = (mask & towrite) << 4 | LCDDR15 & mask;
 			}
 			if (pos == 2) {
-				LCDDR1 = (mask & towrite) | LCDDR1;
+				LCDDR1 = (mask & towrite) | (LCDDR1) & mask2;
 				towrite = (towrite >> 4);
-				LCDDR6 = (mask & towrite) | LCDDR6;
+				LCDDR6 = (mask & towrite) | (LCDDR6) & mask2;
 				towrite = (towrite >> 4);
-				LCDDR11 = (mask & towrite) | LCDDR11;
+				LCDDR11 = (mask & towrite) | (LCDDR11) & mask2;
 				towrite = (towrite >> 4);
-				LCDDR16 = (mask & towrite) | LCDDR16;
+				LCDDR16 = (mask & towrite) | (LCDDR16) & mask2;
 			}
 			if (pos == 3) {
-				LCDDR1 = (mask & towrite) << 4;
+				LCDDR1 = (mask & towrite) << 4| LCDDR1 & mask;
 				towrite = (towrite >> 4);
-				LCDDR6 = (mask & towrite) << 4;
+				LCDDR6 = (mask & towrite) << 4| LCDDR6 & mask;
 				towrite = (towrite >> 4);
-				LCDDR11 = (mask & towrite) << 4;
+				LCDDR11 = (mask & towrite) << 4| LCDDR11 & mask;
 				towrite = (towrite >> 4);
-				LCDDR16 = (mask & towrite) << 4;
+				LCDDR16 = (mask & towrite) << 4| LCDDR16 & mask;
 			}
 			if (pos == 4) {
-				LCDDR2 = (mask & towrite) | LCDDR2 ;
+				LCDDR2 = (mask & towrite) | LCDDR2 & mask2 ;
 				towrite = (towrite >> 4);
-				LCDDR7 = (mask & towrite) | LCDDR7;
+				LCDDR7 = (mask & towrite) | LCDDR7 & mask2;
 				towrite = (towrite >> 4);
-				LCDDR12 = (mask & towrite)| LCDDR12;
+				LCDDR12 = (mask & towrite)| LCDDR12 & mask2;
 				towrite = (towrite >> 4);
-				LCDDR17 = (mask & towrite)| LCDDR17;
+				LCDDR17 = (mask & towrite)| LCDDR17 & mask2;
 			}
 			if (pos == 5) {
-				LCDDR2 = (mask & towrite) << 4;
+				LCDDR2 = (mask & towrite) << 4| LCDDR2 & mask;
 				towrite = (towrite >> 4);
-				LCDDR7 = (mask & towrite) << 4;
+				LCDDR7 = (mask & towrite) << 4| LCDDR7 & mask;
 				towrite = (towrite >> 4);
-				LCDDR12 = (mask & towrite) << 4;
+				LCDDR12 = (mask & towrite) << 4| LCDDR12 & mask;
 				towrite = (towrite >> 4);
-				LCDDR17 = (mask & towrite) << 4;
+				LCDDR17 = (mask & towrite) << 4| LCDDR17 & mask;
 			}
-			/*if (pos == 5) {
-				LCDDR3 = (mask & towrite) <<4;
-				towrite = (towrite >> 4);
-				LCDDR8 = (mask & towrite)<<4;
-				towrite = (towrite >> 4);
-				LCDDR13 = (mask & towrite)<<4;
-				towrite = (towrite >> 4);
-				LCDDR18 = (mask & towrite)<<4;
-			}*/
-
 		}
 	}
 }
@@ -319,11 +300,11 @@ int main(void)
 		//LCDDR1 = 32;
 		//writechar(2,5);
 		//writeLong(123456);
-		//primes(2);
+		primes(2);
 		//blink();
 		//button();
 		//button2();
-		combined();
+		//combined();
 
 	}
 
