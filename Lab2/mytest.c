@@ -110,12 +110,15 @@ void LCD_init(void) {
 }
 
 void printAt(long num, int pos) {
-	lock(&m);
+	//lock(&m);
     pp = pos;
     writeChar( (char)num % 100 / 10 + '0', pp);
+	/*for (int i=0;i<1000;i++)
+	{
+	}*/
     pp++;
     writeChar( (char)num % 10 + '0', pp);
-	unlock(&m);
+	//unlock(&m);
 }
 
 void computePrimes(int pos) {
