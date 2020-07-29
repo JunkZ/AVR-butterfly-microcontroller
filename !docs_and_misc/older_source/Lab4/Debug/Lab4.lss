@@ -4823,27 +4823,26 @@ void write(Writer *self, int arg)
 	if (arg == 4)//generator 1
     22f0:	64 30       	cpi	r22, 0x04	; 4
     22f2:	71 05       	cpc	r23, r1
-    22f4:	29 f4       	brne	.+10     	; 0x2300 <write+0x10>
-	{ 
-		
-		PORTE = PORTE ^ 16; //XOR toggles between xxx1 xxxx and xxx0 xxxx. also need to keep old value from port 6, not overwrite
-    22f6:	9e b1       	in	r25, 0x0e	; 14
-    22f8:	80 e1       	ldi	r24, 0x10	; 16
-    22fa:	89 27       	eor	r24, r25
-    22fc:	8e b9       	out	0x0e, r24	; 14
-    22fe:	08 95       	ret
-	}
-	else if (arg == 6)//generator 2
-    2300:	66 30       	cpi	r22, 0x06	; 6
-    2302:	71 05       	cpc	r23, r1
-    2304:	49 f4       	brne	.+18     	; 0x2318 <write+0x28>
+    22f4:	51 f4       	brne	.+20     	; 0x230a <write+0x1a>
 	{ 
 		LCDDR1 = LCDDR1 ^ 0xFFFF; //test for pulsing without oscilloscope
-    2306:	ed ee       	ldi	r30, 0xED	; 237
-    2308:	f0 e0       	ldi	r31, 0x00	; 0
-    230a:	80 81       	ld	r24, Z
-    230c:	80 95       	com	r24
-    230e:	80 83       	st	Z, r24
+    22f6:	ed ee       	ldi	r30, 0xED	; 237
+    22f8:	f0 e0       	ldi	r31, 0x00	; 0
+    22fa:	80 81       	ld	r24, Z
+    22fc:	80 95       	com	r24
+    22fe:	80 83       	st	Z, r24
+		PORTE = PORTE ^ 16; //XOR toggles between xxx1 xxxx and xxx0 xxxx. also need to keep old value from port 6, not overwrite
+    2300:	9e b1       	in	r25, 0x0e	; 14
+    2302:	80 e1       	ldi	r24, 0x10	; 16
+    2304:	89 27       	eor	r24, r25
+    2306:	8e b9       	out	0x0e, r24	; 14
+    2308:	08 95       	ret
+	}
+	else if (arg == 6)//generator 2
+    230a:	66 30       	cpi	r22, 0x06	; 6
+    230c:	71 05       	cpc	r23, r1
+    230e:	21 f4       	brne	.+8      	; 0x2318 <write+0x28>
+	{ 
 		PORTE = PORTE ^ 64;
     2310:	9e b1       	in	r25, 0x0e	; 14
     2312:	80 e4       	ldi	r24, 0x40	; 64
